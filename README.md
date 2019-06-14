@@ -41,12 +41,13 @@ In Pycharm, set `test_flag` to `True` in `/Deep-Reformulated-Laplacian-Tone-Mapp
 This algorithm is developed by [I2Sense Lab](https://www.ucalgary.ca/i2sense/) of [University of Calgary](https://www.ucalgary.ca/).
 
 If you have ang issue,please concat [Prof. Yadid-Pecht](https://www.ucalgary.ca/i2sense/yadid_pecht_biography) or [Dr.Jie Yang](https://jieyang1987.github.io/).
-#### Email:
- >orly.yadid-pecht@ucalgary.ca
+* email:
+
+   >orly.yadid-pecht@ucalgary.ca
  
- >yangjie@westlake.edu.cn
+   >yangjie@westlake.edu.cn
  
- >mengchen.lin@ucalgary.ca
+   >mengchen.lin@ucalgary.ca
  
- >ziyi.liu1@ucalgary.ca
+   >ziyi.liu1@ucalgary.ca
 
