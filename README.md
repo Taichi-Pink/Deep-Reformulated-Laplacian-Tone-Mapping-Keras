@@ -12,7 +12,6 @@ In this work, we have proposed a new tone mapping method--a novel reformulated L
 The two images are processed by a ```global compression network```(compress the global scale gradient of a WDR image) and a ```local manipulation neural network```(manipulate local features), respectively. The generated images from the two networks are further merged together, and then input merged images to ```fine tune network``` to produce the final image.
 
 ## Get Started
-
 ### Prerequistes
 * Python 2.7
 * Tensorflow-gpu 1.9.0
@@ -22,7 +21,6 @@ The two images are processed by a ```global compression network```(compress the 
 * Matplotlib 2.2.3
 * [Luminance HDR](https://github.com/luminancehdr/luminancehdr) for tonemapping
 * [Laval Indoor dataset](http://indoor.hdrdb.com/)(EULA required)
-
 ### Instructions
 #### Demo
 In Pycharm, set `test_flag` to `True` in `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/operation/ft_layer.py` file, then run this file.
@@ -43,7 +41,6 @@ In Pycharm, set `test_flag` to `True` in `/Deep-Reformulated-Laplacian-Tone-Mapp
 This algorithm is developed by [I2Sense Lab](https://www.ucalgary.ca/i2sense/) of [University of Calgary](https://www.ucalgary.ca/).
 
 If you have ang issue,please concat [Prof. Yadid-Pecht](https://www.ucalgary.ca/i2sense/yadid_pecht_biography) or [Dr.Jie Yang](https://jieyang1987.github.io/).
-
 #### Email:
  >orly.yadid-pecht@ucalgary.ca
  
