@@ -14,7 +14,7 @@ The two images are processed by a ```global compression network```(compress the 
 ## Get Started
 ### Prerequistes
 
-#### Pycharm 2019
+##### Pycharm 2019
 * Python 2.7
 * Tensorflow-gpu 1.9.0
 * Keras 2.2.4
@@ -50,13 +50,13 @@ The two images are processed by a ```global compression network```(compress the 
   >
   >Place the testing `.hdr` images under `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/dataset/test/hdr/` folder, and the corresponding label images created from step 3 under `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/dataset/test/ldr/` folder.
 
-* train high layer
+* Train high layer
 
   >run `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/operation/high_layer.py` file.
-* train bottom layer
+* Train bottom layer
 
   >run `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/operation/bot_layer.py` file.
-* train fine tune layer
+* Train fine tune layer
   >Set `test_flag` to `False` in `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/operation/ft_layer.py` file
   >
   >Run this file.
@@ -72,10 +72,10 @@ If you have ang issue,please concat [Prof. Yadid-Pecht](https://www.ucalgary.ca/
 * email:
 
    >orly.yadid-pecht@ucalgary.ca
- 
+   >
    >yangjie@westlake.edu.cn
- 
+   >
    >mengchen.lin@ucalgary.ca
- 
+   >
    >ziyi.liu1@ucalgary.ca
 
