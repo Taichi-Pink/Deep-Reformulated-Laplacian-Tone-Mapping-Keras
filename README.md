@@ -13,18 +13,43 @@ The two images are processed by a ```global compression network```(compress the 
 
 ## Get Started
 ### Prerequistes
+
+#### Pycharm 2019
 * Python 2.7
 * Tensorflow-gpu 1.9.0
 * Keras 2.2.4
 * Opencv-python 3.4.4.19
 * Scipy 1.1.0
 * Matplotlib 2.2.3
-* [Luminance HDR](https://github.com/luminancehdr/luminancehdr) for tonemapping
-* [Laval Indoor dataset](http://indoor.hdrdb.com/)(EULA required)
+
+#### DownLoad
+
+* Download [pretrained](https://drive.google.com/drive/my-drive) file, and place it under `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/loss/` folder.
+* Download [dataset](https://drive.google.com/drive/my-drive) file, and place it under `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/` folder.
+
+
 ### Instructions
 #### Demo
-In Pycharm, set `test_flag` to `True` in `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/operation/ft_layer.py` file, then run this file.
+* Set `test_flag` to `True` in `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/operation/ft_layer.py` file
+* Run this file.
+  
 #### Train
+* Download [Laval Indoor dataset](http://indoor.hdrdb.com/)(EULA required).
+
+* Download [Luminance HDR](https://github.com/luminancehdr/luminancehdr) for tonemapping.
+
+* Generate the label images.
+  
+  >Tonemapping the [Laval Indoor dataset](http://indoor.hdrdb.com/) `.hdr` files by
+  [Luminance HDR](https://github.com/luminancehdr/luminancehdr), save the tonemapped images in `.jpg`.
+
+* Follow the data preprocessing steps specified on our paper to process the data.
+
+* Divide the data in train set and test set.
+  >Place the training `.hdr` images under `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/dataset/train/hdr/` folder, and the       corresponding label images created from step 3 under `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/dataset/train/ldr/` folder. 
+  >
+  >Place the testing `.hdr` images under `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/dataset/test/hdr/` folder, and the corresponding label images created from step 3 under `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/dataset/test/ldr/` folder.
+
 * train high layer
 
   >run `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/operation/high_layer.py` file.
@@ -32,10 +57,13 @@ In Pycharm, set `test_flag` to `True` in `/Deep-Reformulated-Laplacian-Tone-Mapp
 
   >run `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/operation/bot_layer.py` file.
 * train fine tune layer
+  >Set `test_flag` to `False` in `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/operation/ft_layer.py` file
+  >
+  >Run this file.
 
-
-  >run `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/operation/ft_layer.py` file.
-
+#### Test
+* Set `test_flag` to `True` in `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/operation/ft_layer.py` file
+* Run this file.
 
 ## Contact
 This algorithm is developed by [I2Sense Lab](https://www.ucalgary.ca/i2sense/) of [University of Calgary](https://www.ucalgary.ca/).
