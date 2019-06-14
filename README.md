@@ -22,7 +22,7 @@ The two images are processed by a ```global compression network```(compress the 
 * Scipy 1.1.0
 * Matplotlib 2.2.3
 
-#### DownLoad
+#### Download
 
 * Download [pretrained](https://drive.google.com/drive/my-drive) file, and place it under `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/loss/` folder.
 * Download [dataset](https://drive.google.com/drive/my-drive) file, and place it under `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/` folder.
