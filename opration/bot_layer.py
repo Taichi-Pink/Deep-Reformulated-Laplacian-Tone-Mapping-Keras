@@ -14,8 +14,8 @@ from keras.models import load_model, Model
 from keras.utils import plot_model
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-w","--width", required=False, default=7768, help='width of input images')
-ap.add_argument("-hei","--height", required=False, default=3301, help='height of input images')
+ap.add_argument("-w","--width", required=False, default=2048, help='width of input images')
+ap.add_argument("-hei","--height", required=False, default=1024, help='height of input images')
 ap.add_argument("-h_p","--h_path", required=False, default='../dataset/train/hdr/', help='path of hdr images')
 ap.add_argument("-l_p", "--l_path", required=False, default='../dataset/train/ldr/', help='path of ldr images')
 ap.add_argument("-x_ratio","--random_patch_ratio_x", required=False, default=0.2, help='random patch ratio x of an image')
@@ -31,6 +31,7 @@ ap.add_argument("-data_bt_l","--data_bt_ldr", required=False, default='../datase
 ap.add_argument("-data_h_h","--data_h_hdr", required=False, default='../dataset/train/hdr_h.pkl', help='hdr images of high layer')
 ap.add_argument("-data_h_l","--data_h_ldr", required=False, default='../dataset/train/ldr_h.pkl', help='ldr images of high layer')
 ap.add_argument("-data_l","--data_ldr", required=False, default='../dataset/train/ldr.pkl', help='ldr images of fine tune layer')
+ap.add_argument("-plt","--plot", required=False, default='../showprocess/plot_bt.png', help='path to output accuracy/loss plot of bottom layer')
 
 args = vars(ap.parse_args())
 
@@ -78,9 +79,21 @@ aug = ImageDataGenerator(rotation_range=30, width_shift_range=0.1, height_shift_
 model = net_bottom_layer(hdr)
 adam = optimizers.Adam(lr=0.001)
 model.compile(loss=loss, optimizer=adam, metrics=['accuracy'])
-model.fit_generator(aug.flow(hdr, ldr, batch_size=args['batch_size']),
+H = model.fit_generator(aug.flow(hdr, ldr, batch_size=args['batch_size']),
                     steps_per_epoch=hdr.shape[0]/args['batch_size'], epochs=args['epoch'])
 model.save_weights(args['bottom_weight'])
+
+# plot the training loss and accuracy
+N = np.arange(0, args['epoch'])
+plt.style.use("ggplot")
+plt.figure()
+plt.plot(N, H.history["loss"], label="train_loss")
+plt.plot(N, H.history["acc"], label="train_acc")
+plt.title("Training Loss and Accuracy (Bottom Layer)")
+plt.xlabel("Epoch ")
+plt.ylabel("Loss/Accuracy")
+plt.legend()
+plt.savefig(args["plot"])
 model.summary()
 
 

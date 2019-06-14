@@ -40,6 +40,7 @@ ap.add_argument("-bottom","--bottom_weight", required=False, default='../checkpo
 ap.add_argument("-ft","--ft_weight", required=False, default='../checkpoint/ft_layer/model_weights_ft.h5', help='path of bottom model')
 ap.add_argument("-data_h_l","--data_h_ldr", required=False, default='../dataset/train/ldr_h.pkl', help='ldr images of high layer')
 ap.add_argument("-data_bt_l","--data_bt_ldr", required=False, default='../dataset/train/ldr_bt.pkl', help='ldr images of high layer')
+ap.add_argument("-plt","--plot", required=False, default='../showprocess/plot_ft.png', help='path to output accuracy/loss plot of fine tune layer')
 
 args = vars(ap.parse_args())
 aug = ImageDataGenerator(rotation_range=30, width_shift_range=0.1, height_shift_range=0.1,
@@ -54,13 +55,6 @@ def generate_data_generator_for_2_images(x1, x2, y):
         x1i = genX1.next()
         x2i = genX2.next()
         yield [x1i[0], x2i], x1i[1]
-
-
-def calculate(height, width, level):
-    for i in range(level):
-        height /= 2
-        width /= 2
-    return int(height), int(width)
 
 
 def loss(gt_gray, output):
@@ -89,24 +83,7 @@ def loss(gt_gray, output):
 
 
 # Import data
-if not args['test_flag']:
-    if os.path.exists(args['data_ldr']):
-        fr = open(args['data_bottom_hdr'], 'rb')
-        hdr_bt = pickle.load(fr)
-        fr.close()
-
-        fr = open(args['data_high_hdr'], 'rb')
-        hdr_h = pickle.load(fr)
-        fr.close()
-
-        fr = open(args['data_ldr'], 'rb')
-        ldr = pickle.load(fr)
-        fr.close()
-    else:
-        hdr_h, _, hdr_bt, _, ldr = generate_train_data_from_file(args)
-    shape1 = hdr_h.shape
-    shape2 = hdr_bt.shape
-else:
+if args['test_flag']:
     if os.path.exists(args['data_high_hdr']):
         fr = open(args['data_high_hdr'], 'rb')
         hdr_h_test = pickle.load(fr)
@@ -122,8 +99,25 @@ else:
     shape2 = hdr_bt_test.shape
     shape1 = hdr_h_test.shape
 
-# Model
+else:
+    if os.path.exists(args['data_ldr']):
+        fr = open(args['data_bt_hdr'], 'rb')
+        hdr_bt = pickle.load(fr)
+        fr.close()
 
+        fr = open(args['data_h_hdr'], 'rb')
+        hdr_h = pickle.load(fr)
+        fr.close()
+
+        fr = open(args['data_ldr'], 'rb')
+        ldr = pickle.load(fr)
+        fr.close()
+    else:
+        hdr_h, _, hdr_bt, _, ldr = generate_train_data_from_file(args)
+    shape1 = hdr_h.shape
+    shape2 = hdr_bt.shape
+
+# Model
 # Construct high_layer
 inputt_h = Input(shape=(shape1[1], shape1[2], shape1[3]), name='input1_h')
 output_h = conv_relu_batch(inputt=inputt_h, name='conv1_h')
@@ -221,9 +215,21 @@ else:
 
     adam = optimizers.Adam(lr=0.001)
     model.compile(loss=loss, optimizer=adam, metrics=['accuracy'])
-    model.fit_generator(generate_data_generator_for_2_images(hdr_h, hdr_bt, ldr),
+    H = model.fit_generator(generate_data_generator_for_2_images(hdr_h, hdr_bt, ldr),
                         steps_per_epoch=hdr_bt.shape[0]/args['batch_size'], epochs=args['epoch'])
     model.save_weights(args['ft_weight'])
+
+    # plot the training loss and accuracy
+    N = np.arange(0, args['epoch'])
+    plt.style.use("ggplot")
+    plt.figure()
+    plt.plot(N, H.history["loss"], label="train_loss")
+    plt.plot(N, H.history["acc"], label="train_acc")
+    plt.title("Training Loss and Accuracy (Fine Tune Layer)")
+    plt.xlabel("Epoch ")
+    plt.ylabel("Loss/Accuracy")
+    plt.legend()
+    plt.savefig(args["plot"])
     model.summary()
 
 
