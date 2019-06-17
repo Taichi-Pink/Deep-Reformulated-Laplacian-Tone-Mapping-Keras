@@ -4,10 +4,10 @@ This is the implementation for Deep Reformulated Laplacian Tone Mapping. And cod
 
 
 ## Introduction
-<figure class="half">
-    <img src="https://raw.githubusercontent.com/PinkLoveyi/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/image/9C4A1511-702551eb64_predict.png">
-    <img src="https://raw.githubusercontent.com/PinkLoveyi/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/image/9C4A0221-feaaa06d6f_predict.png">
-</figure>
+<img src="https://raw.githubusercontent.com/PinkLoveyi/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/image/9C4A1511-702551eb64_predict.png" width="430"> <img src="https://raw.githubusercontent.com/PinkLoveyi/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/image/9C4A0221-feaaa06d6f_predict.png" width="430">
+
+<img src="https://raw.githubusercontent.com/PinkLoveyi/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/image/9C4A3782-70b3083cee_predict.png" width="430"> <img src="https://raw.githubusercontent.com/PinkLoveyi/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/image/9C4A0221-feaaa06d6f_predict.png" width="430">
+
 ![pink](https://raw.githubusercontent.com/PinkLoveyi/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/image/9C4A1511-702551eb64_predict.png)![pink](https://raw.githubusercontent.com/PinkLoveyi/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/image/9C4A0221-feaaa06d6f_predict.png)
 ![pink](https://raw.githubusercontent.com/PinkLoveyi/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/image/9C4A3782-70b3083cee_predict.png)![pink](https://raw.githubusercontent.com/PinkLoveyi/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/image/9C4A4301-9fd6373e60_predict.png)
 This algorithm is developed by [I2Sense Lab](https://www.ucalgary.ca/i2sense/) of [University of Calgary](https://www.ucalgary.ca/)., we have proposed a new tone mapping method--a novel reformulated Laplacian method to 
