@@ -17,8 +17,8 @@ The two images are processed by a ```global compression network```(compress the 
 ## Get Started
 ### Prerequistes
 * Download [Pyacharm 2019](https://www.jetbrains.com/pycharm/download/#section=linux)
-* Download [pretrained](https://drive.google.com/drive/my-drive) file, and place it under `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/loss/` folder.
-* Download [dataset](https://drive.google.com/drive/my-drive) file, and place it under `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/` folder.
+* Download [pretrained](https://drive.google.com/open?id=1HZel2k51rzWchYdYxdHXbE2AvRM0lyrM) file, and place it under `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/loss/` folder.
+* Download [dataset](https://drive.google.com/open?id=1da70CuYLFsVePvjimS_sUKExv6vO2xyM) file, and place it under `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/` folder.
 * Tensorflow 1.9.0
 
 ### Instructions
