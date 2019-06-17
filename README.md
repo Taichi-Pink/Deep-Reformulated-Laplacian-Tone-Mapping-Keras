@@ -4,8 +4,11 @@ This is the implementation for Deep Reformulated Laplacian Tone Mapping. And cod
 
 
 ## Introduction
-![pink](https://raw.githubusercontent.com/PinkLoveyi/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/image/hdr_show.png)
-In this work, we have proposed a new tone mapping method--a novel reformulated Laplacian method to 
+![pink](https://raw.githubusercontent.com/PinkLoveyi/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/image/9C4A1511-702551eb64_predict.png)
+![pink](https://raw.githubusercontent.com/PinkLoveyi/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/image/9C4A0221-feaaa06d6f_predict.png)
+![pink](https://raw.githubusercontent.com/PinkLoveyi/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/image/9C4A3782-70b3083cee_predict.png)
+![pink](https://raw.githubusercontent.com/PinkLoveyi/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/image/9C4A4301-9fd6373e60_predict.png)
+This algorithm is developed by [I2Sense Lab](https://www.ucalgary.ca/i2sense/) of [University of Calgary](https://www.ucalgary.ca/)., we have proposed a new tone mapping method--a novel reformulated Laplacian method to 
 ```decompose a WDR image into a low-resolution image``` (contains the low frequency component of the WDR image) ```and a high-resolution image```(contains the remaining higher frequencies of the WDR image).
 
 
@@ -13,8 +16,14 @@ The two images are processed by a ```global compression network```(compress the 
 
 ## Get Started
 ### Prerequistes
+* Download [Pyacharm 2019](https://www.jetbrains.com/pycharm/download/#section=linux)
+* Download [pretrained](https://drive.google.com/drive/my-drive) file, and place it under `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/loss/` folder.
+* Download [dataset](https://drive.google.com/drive/my-drive) file, and place it under `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/` folder.
+* Tensorflow 1.9.0
 
-##### Pycharm 2019
+### Instructions
+
+##### Pycharm setup 
 * Python 2.7
 * Tensorflow-gpu 1.9.0
 * Keras 2.2.4
@@ -22,13 +31,6 @@ The two images are processed by a ```global compression network```(compress the 
 * Scipy 1.1.0
 * Matplotlib 2.2.3
 
-#### Download
-
-* Download [pretrained](https://drive.google.com/drive/my-drive) file, and place it under `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/loss/` folder.
-* Download [dataset](https://drive.google.com/drive/my-drive) file, and place it under `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/` folder.
-
-
-### Instructions
 #### Demo
 * Set `test_flag` to `True` in `/Deep-Reformulated-Laplacian-Tone-Mapping-Master/operation/ft_layer.py` file
 * Run this file.
@@ -66,7 +68,6 @@ The two images are processed by a ```global compression network```(compress the 
 * Run this file.
 
 ## Contact
-This algorithm is developed by [I2Sense Lab](https://www.ucalgary.ca/i2sense/) of [University of Calgary](https://www.ucalgary.ca/).
 
 If you have ang issue,please concat [Prof. Yadid-Pecht](https://www.ucalgary.ca/i2sense/yadid_pecht_biography) or [Dr.Jie Yang](https://jieyang1987.github.io/).
 * email:
