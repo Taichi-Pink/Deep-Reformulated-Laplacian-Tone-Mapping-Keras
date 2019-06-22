@@ -1,5 +1,3 @@
-import imageio as io
-from keras.models import Sequential
 from keras.layers import Dense, Conv2D, BatchNormalization
 from utils.utilities import *
 from utils.utils_lap_pyramid import *
@@ -8,15 +6,14 @@ from loss.cal_loss import *
 import tensorflow as tf
 from keras import optimizers
 import argparse, pickle, keras, glob, os, cv2
-from opration.data_gen import *
+from data_gen import *
 import matplotlib.pyplot as plt
 from net_structure import *
-from keras.models import load_model,Model, model_from_json
-from keras.utils import plot_model
 
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 ap = argparse.ArgumentParser()
-ap.add_argument("-w","--width", required=False, default=2048, help='width of input images')
-ap.add_argument("-hei","--height", required=False, default=1024, help='height of input images')
+ap.add_argument("-w","--width", required=False, default=7768, help='width of input images')
+ap.add_argument("-he","--height", required=False, default=3301, help='height of input images')
 ap.add_argument("-h_p","--h_path", required=False, default='../dataset/train/hdr/', help='path of hdr images')
 ap.add_argument("-l_p", "--l_path", required=False, default='../dataset/train/ldr/', help='path of ldr images')
 ap.add_argument("-x_ratio","--random_patch_ratio_x", required=False, default=0.2, help='random patch ratio x of an image')
@@ -63,26 +60,54 @@ def loss(gt_gray, output):
     return losss
 
 
+def data_gen(fr1, fr2):
+    for index in range(int(15200/args['batch_size'])):
+        hdr_arr = []
+        ldr_arr = []
+        for i in range(args['batch_size']):
+            hdr = pickle.load(fr1)
+            ldr = pickle.load(fr2)
+            hdr_arr.append(hdr)
+            ldr_arr.append(ldr)
+        hdr_h = np.array(hdr_arr)
+        ldr_h = np.array(ldr_arr)
+        gen = aug.flow(hdr_h, ldr_h, batch_size=args['batch_size'])
+        for j in range(args['batch_size']):
+            out = gen.next()
+            yield out[0], out[1]
+
+
 # Import data
-if os.path.exists(args['data_h_hdr']):
-    fr = open(args['data_h_hdr'], 'rb')
-    hdr = pickle.load(fr)
-    fr.close()
-    fr = open(args['data_h_ldr'], 'rb')
-    ldr = pickle.load(fr)
-    fr.close()
-else:
-    hdr, ldr, _, _, _ = generate_train_data_from_file(args)
+# if os.path.exists(args['data_h_hdr']):
+#     fr = open(args['data_h_hdr'], 'rb')
+#     hdr = pickle.load(fr)
+#     fr.close()
+#     fr = open(args['data_h_ldr'], 'rb')
+#     ldr = pickle.load(fr)
+#     fr.close()
+# else:
+#     hdr, ldr, _, _, _ = generate_train_data_from_file(args)
+if not os.path.exists(args['data_h_hdr']):
+    generate_train_data_from_file(args)
+
+fr1 = open(args['data_h_hdr'], 'rb')
+# hdr = pickle.load(fr)
+# fr.close()
+fr2 = open(args['data_h_ldr'], 'rb')
+# ldr = pickle.load(fr)
+# fr.close()
 
 aug = ImageDataGenerator(rotation_range=30, width_shift_range=0.1, height_shift_range=0.1,
                          shear_range=0.2, zoom_range=0.2, horizontal_flip=True, fill_mode="nearest")
 
 # Model
-model = net_high_layer(hdr)
+
+model = net_high_layer()
 adam = optimizers.Adam(lr=0.001)
 model.compile(loss=loss, optimizer=adam, metrics=['accuracy'])
-H = model.fit_generator(aug.flow(hdr, ldr, batch_size=args['batch_size']),
-                    steps_per_epoch=hdr.shape[0]/args['batch_size'], epochs=args['epoch'])
+
+H = model.fit_generator(data_gen(fr1, fr2),
+                    steps_per_epoch=7600, epochs=args['epoch'])
 model.save_weights(args['high_weight'])
 
 # plot the training loss and accuracy
@@ -97,3 +122,6 @@ plt.ylabel("Loss/Accuracy")
 plt.legend()
 plt.savefig(args["plot"])
 model.summary()
+
+fr1.close()
+fr2.close()
