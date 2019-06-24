@@ -17,30 +17,35 @@ import pickle, argparse
 from keras.models import Model
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-w","--width", required=False, default=7768, help='width of input images')
-ap.add_argument("-hei","--height", required=False, default=3301, help='height of input images')
-ap.add_argument("-h_p","--h_path", required=False, default='../dataset/train/hdr/', help='path of hdr images')
-ap.add_argument("-l_p", "--l_path", required=False, default='../dataset/train/ldr/', help='path of ldr images')
-ap.add_argument("-x_ratio","--random_patch_ratio_x", required=False, default=0.2, help='random patch ratio x of an image')
-ap.add_argument("-y_ratio","--random_patch_ratio_y", required=False, default=0.6, help='random patch ratio y of an image')
-ap.add_argument("-p_size","--patch_size", required=False, default=512, help='patch size of an image')
-ap.add_argument("-rp_per","--random_patch_per_img", required=False, default=20, help='random_patch_per_image')
-ap.add_argument("-l","--level", required=False, default=4, help='levels of laplacian pyramid')
-ap.add_argument("-e","--epoch", required=False, default=6, help='epochs of training')
-ap.add_argument("-b","--batch_size", required=False, default=2, help='batch size of training')
-ap.add_argument("-data_bt_h","--data_bottom_hdr", required=False, default='../dataset/test/hdr_bt.pkl', help='hdr images of bottom layer')
-ap.add_argument("-data_h_h","--data_high_hdr", required=False, default='../dataset/test/hdr_h.pkl', help='hdr images of high layer')
-ap.add_argument("-data_bt_train_h","--data_bt_hdr", required=False, default='../dataset/train/hdr_bt.pkl', help='hdr images of bottom layer')
-ap.add_argument("-data_h_train_h","--data_h_hdr", required=False, default='../dataset/train/hdr_h.pkl', help='hdr images of high layer')
-ap.add_argument("-data_l","--data_ldr", required=False, default='../dataset/train/ldr.pkl', help='ldr images of fine tune layer')
-ap.add_argument("-test","--test_flag", required=False, default=False, help='Test or train fine tune layer')
-ap.add_argument("-n","--name", required=False, default='../dataset/test/name.pkl', help='Test or train fine tune layer')
-ap.add_argument("-high","--high_weight", required=False, default='../checkpoint/high_layer/model_weights_h.h5', help='path of high model')
-ap.add_argument("-bottom","--bottom_weight", required=False, default='../checkpoint/bot_layer/model_weights_bt.h5', help='path of bottom model')
-ap.add_argument("-ft","--ft_weight", required=False, default='../checkpoint/ft_layer/model_weights_ft.h5', help='path of bottom model')
-ap.add_argument("-data_h_l","--data_h_ldr", required=False, default='../dataset/train/ldr_h.pkl', help='ldr images of high layer')
-ap.add_argument("-data_bt_l","--data_bt_ldr", required=False, default='../dataset/train/ldr_bt.pkl', help='ldr images of high layer')
-ap.add_argument("-plt","--plot", required=False, default='../showprocess/plot_ft.png', help='path to output accuracy/loss plot of fine tune layer')
+ap.add_argument("--width",default=7768,help='width of input images')
+ap.add_argument("--height", default=3301, help='height of input images')
+ap.add_argument("--h_path",default='../dataset/train/hdr/', help='path of hdr images')
+ap.add_argument("--l_path",default='../dataset/train/ldr/', help='path of ldr images')
+ap.add_argument("--hdr_path", default='../dataset/test/hdr/', help='path of hdr images')
+ap.add_argument("--random_patch_ratio_x",default=0.2, help='random patch ratio x of an image')
+ap.add_argument("--random_patch_ratio_y", default=0.6, help='random patch ratio y of an image')
+ap.add_argument("--patch_size",default=512, help='patch size of an image')
+ap.add_argument("--random_patch_per_img", default=20, help='random_patch_per_image')
+ap.add_argument("--level", default=4, help='levels of laplacian pyramid')
+ap.add_argument("--epoch", default=6, help='epochs of training')
+ap.add_argument("--batch_size", default=4, help='batch size of training')
+ap.add_argument("--data_bottom_hdr", default='../dataset/test/hdr_bt.pkl', help='hdr images of bottom layer')
+ap.add_argument("--data_high_hdr", default='../dataset/test/hdr_h.pkl', help='hdr images of high layer')
+ap.add_argument("--data_bt_hdr", default='../dataset/train/hdr_bt.pkl', help='hdr images of bottom layer')
+ap.add_argument("--data_h_hdr", default='../dataset/train/hdr_h.pkl', help='hdr images of high layer')
+ap.add_argument("--data_ldr", default='../dataset/train/ldr.pkl', help='ldr images of fine tune layer')
+ap.add_argument("--test_flag", default=True, help='Test or train fine tune layer')
+ap.add_argument("--name", default='../dataset/test/name.pkl', help='Test or train fine tune layer')
+ap.add_argument("--high_weight",  default='../checkpoint/high_layer/model_weights_h.h5', help='path of high model')
+ap.add_argument("--bottom_weight",  default='../checkpoint/bot_layer/model_weights_bt.h5', help='path of bottom model')
+ap.add_argument("--ft_weight",  default='../checkpoint/ft_layer/model_weights_ft.h5', help='path of bottom model')
+ap.add_argument("--data_h_ldr", default='../dataset/train/ldr_h.pkl', help='ldr images of high layer')
+ap.add_argument("--data_bt_ldr",  default='../dataset/train/ldr_bt.pkl', help='ldr images of high layer')
+ap.add_argument("--plot",  default='../showprocess/plot_ft.png', help='path to output accuracy/loss plot of fine tune layer')
+ap.add_argument("--bt_size",  default=(32, 32), help='path to output accuracy/loss plot of fine tune layer')
+ap.add_argument("--h_size",  default=(512,512), help='path to output accuracy/loss plot of fine tune layer')
+ap.add_argument("--bt_size_test", default=(243, 104), help='path to output accuracy/loss plot of fine tune layer')
+ap.add_argument("--h_size_test",  default=(3884, 1650), help='path to output accuracy/loss plot of fine tune layer')
 
 args = vars(ap.parse_args())
 aug = ImageDataGenerator(rotation_range=30, width_shift_range=0.1, height_shift_range=0.1,
@@ -48,10 +53,28 @@ aug = ImageDataGenerator(rotation_range=30, width_shift_range=0.1, height_shift_
 
 
 # construct the image generator for data augmentation
-def generate_data_generator_for_2_images(x1, x2, y):
-    genX1 = aug.flow(x1, y, batch_size=args['batch_size'])
-    genX2 = aug.flow(x2, batch_size=args['batch_size'])
+def data_gen(fr1, fr2, fr3):
     while True:
+        hdr_h_arr = []
+        hdr_bt_arr = []
+        ldr_arr = []
+        for i in range(args['batch_size']):
+            try:
+                hdr_h = pickle.load(fr1)
+                hdr_bt = pickle.load(fr2)
+                ldr = pickle.load(fr3)
+            except EOFError:
+                fr1 = open(args['data_h_hdr'], 'rb')
+                fr2 = open(args['data_bt_hdr'], 'rb')
+                fr3 = open(args['data_ldr'], 'rb')
+            hdr_h_arr.append(hdr_h)
+            hdr_bt_arr.append(hdr_bt)
+            ldr_arr.append(ldr)
+        h_hdr= np.array(hdr_h_arr)
+        bt_hdr = np.array(hdr_bt_arr)
+        ldr = np.array(ldr_arr)
+        genX1 = aug.flow(h_hdr, ldr, batch_size=args['batch_size'])
+        genX2 = aug.flow(bt_hdr, batch_size=args['batch_size'])
         x1i = genX1.next()
         x2i = genX2.next()
         yield [x1i[0], x2i], x1i[1]
@@ -84,42 +107,26 @@ def loss(gt_gray, output):
 
 # Import data
 if args['test_flag']:
-    if os.path.exists(args['data_high_hdr']):
-        fr = open(args['data_high_hdr'], 'rb')
-        hdr_h_test = pickle.load(fr)
-        fr.close()
-        fr = open(args['data_bottom_hdr'], 'rb')
-        hdr_bt_test = pickle.load(fr)
-        fr.close()
-        fr = open(args['name'], 'rb')
-        name = pickle.load(fr)
-        fr.close()
-    else:
-        hdr_h_test, hdr_bt_test, name = generate_test_data_from_file(args)
-    shape2 = hdr_bt_test.shape
-    shape1 = hdr_h_test.shape
+    if not os.path.exists(args['data_high_hdr']):
+        generate_test_data_from_file(args)
+    fr1 = open(args['data_high_hdr'], 'rb')
+    fr2 = open(args['data_bottom_hdr'], 'rb')
+    fr3 = open(args['name'], 'rb')
 
+    h = args['h_size_test']
+    bt = args['bt_size_test']
 else:
-    if os.path.exists(args['data_ldr']):
-        fr = open(args['data_bt_hdr'], 'rb')
-        hdr_bt = pickle.load(fr)
-        fr.close()
-
-        fr = open(args['data_h_hdr'], 'rb')
-        hdr_h = pickle.load(fr)
-        fr.close()
-
-        fr = open(args['data_ldr'], 'rb')
-        ldr = pickle.load(fr)
-        fr.close()
-    else:
-        hdr_h, _, hdr_bt, _, ldr = generate_train_data_from_file(args)
-    shape1 = hdr_h.shape
-    shape2 = hdr_bt.shape
+    if not os.path.exists(args['data_ldr']):
+        generate_train_data_from_file(args)
+    fr1 = open(args['data_h_hdr'], 'rb')
+    fr2 = open(args['data_bt_hdr'], 'rb')
+    fr3 = open(args['data_ldr'], 'rb')
+    h = args['h_size']
+    bt = args['bt_size']
 
 # Model
 # Construct high_layer
-inputt_h = Input(shape=(shape1[1], shape1[2], shape1[3]), name='input1_h')
+inputt_h = Input(shape=(h[1], h[0], 1), name='input1_h')
 output_h = conv_relu_batch(inputt=inputt_h, name='conv1_h')
 output_h = conv_relu_batch(inputt=output_h, name='conv2_h')
 output_h = conv_relu_batch(inputt=output_h, name='conv3_h')
@@ -128,14 +135,14 @@ output_h = Conv2D(1, (1, 1), strides=(1, 1), padding='same', name='conv5_h')(out
 output_h = Add(name='add1_h')([inputt_h, output_h])
 
 # Construct bottom_layer
-inputt_bt = Input(shape=(shape2[1], shape2[2], shape2[3]), name='input1_bt')
+inputt_bt = Input(shape=(bt[1], bt[0], 1), name='input1_bt')
 output_bt = conv_relu_batch(inputt=inputt_bt, name='conv1_bt')
 output_bt = conv_relu_batch(inputt=output_bt, name='conv2_bt')
 output_bt = conv_relu_batch(inputt=output_bt, name='conv3_bt')
 output_bt = conv_relu_batch(inputt=output_bt, name='conv4_bt')
 output_bt = Conv2D(1, (1, 1), strides=(1, 1), padding='same', name='conv5_bt')(output_bt)
 output_bt = Add(name='add1_bt')([inputt_bt, output_bt])
-output_b = tf.reshape(output_bt, [args['batch_size'], shape2[1], shape2[2]])
+output_b = tf.reshape(output_bt, [args['batch_size'], bt[1], bt[0]])
 
 # Expand bottom images (has the same size as high layer images)
 bot_p_expand = 0
@@ -186,6 +193,15 @@ model = Model(inputs=[inputt_h, inputt_bt], outputs=output_h)
 # If test network, predict
 if args['test_flag']:
     model.load_weights(args['ft_weight'])
+    hdr_h = []
+    hdr_bt = []
+    name = []
+    for i in range(args['batch_size']):
+        hdr_h.append(pickle.load(fr1))
+        hdr_bt.append(pickle.load(fr2))
+        name.append(pickle.load(fr3))
+    hdr_h_test = np.array(hdr_h)
+    hdr_bt_test = np.array(hdr_bt)
     pre = model.predict([hdr_h_test, hdr_bt_test])
 
     for i in range(pre.shape[0]):
@@ -215,8 +231,8 @@ else:
 
     adam = optimizers.Adam(lr=0.001)
     model.compile(loss=loss, optimizer=adam, metrics=['accuracy'])
-    H = model.fit_generator(generate_data_generator_for_2_images(hdr_h, hdr_bt, ldr),
-                        steps_per_epoch=hdr_bt.shape[0]/args['batch_size'], epochs=args['epoch'])
+    H = model.fit_generator(data_gen(fr1, fr2, fr3),
+                        steps_per_epoch=2600, epochs=args['epoch'])
     model.save_weights(args['ft_weight'])
 
     # plot the training loss and accuracy
@@ -232,4 +248,6 @@ else:
     plt.savefig(args["plot"])
     model.summary()
 
-
+fr1.close()
+fr2.close()
+fr3.close()
