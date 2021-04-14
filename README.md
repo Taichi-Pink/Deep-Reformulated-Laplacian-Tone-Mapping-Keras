@@ -4,9 +4,9 @@ This is the implementation for Deep Reformulated Laplacian Tone Mapping. And cod
 
 
 ## Introduction
-<img src="https://raw.githubusercontent.com/PinkLoveyi/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/result/9C4A1511-702551eb64_predict.jpg" width="430"> <img src="https://raw.githubusercontent.com/PinkLoveyi/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/result/9C4A0221-feaaa06d6f_predict.jpg" width="430">
+<img src="https://raw.githubusercontent.com/Taichi-Pink/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/result/9C4A1511-702551eb64_predict.jpg" width="430"> <img src="https://raw.githubusercontent.com/Taichi-Pink/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/result/9C4A0221-feaaa06d6f_predict.jpg" width="430">
 
-<img src="https://raw.githubusercontent.com/PinkLoveyi/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/result/9C4A3782-70b3083cee_predict.jpg" width="430"> <img src="https://raw.githubusercontent.com/PinkLoveyi/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/result/9C4A4301-9fd6373e60_predict.jpg" width="430">
+<img src="https://raw.githubusercontent.com/Taichi-Pink/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/result/9C4A3782-70b3083cee_predict.jpg" width="430"> <img src="https://raw.githubusercontent.com/Taichi-Pink/Deep-Reformulated-Laplacian-Tone-Mapping-Keras/master/result/9C4A4301-9fd6373e60_predict.jpg" width="430">
 
 This algorithm is developed by [I2Sense Lab](https://www.ucalgary.ca/i2sense/) of [University of Calgary](https://www.ucalgary.ca/)., we have proposed a new tone mapping method--a novel reformulated Laplacian method to 
 ```decompose a WDR image into a low-resolution image``` (contains the low frequency component of the WDR image) ```and a high-resolution image```(contains the remaining higher frequencies of the WDR image).
